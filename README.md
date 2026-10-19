@@ -63,6 +63,13 @@ All three methods fall at the same rate, with fitted slopes of −0.50, −0.50 
 
 The one exception is the control variate with only 100 paths, where it reported an error about 10% smaller than the real one. The regression slope is estimated from the same small sample it then corrects, so it fits that sample's noise slightly too well. By 316 paths the gap has gone.
 
+### Adding Bitcoin-style jumps
+
+Black-Scholes assumes prices move smoothly, but Bitcoin's returns have fat tails, with sudden large moves far more often than a normal distribution allows. Merton's jump-diffusion model adds them: the price follows geometric Brownian motion most of the time, but jumps arrive at random, on average λ times a year, each of random size. I added this to my pricer, checked it against Merton's exact formula, and then asked what volatility Black-Scholes would need to match each price, the implied volatility.
+
+![Implied volatility smile and skew](figures/smile.png)
+
+Without jumps the line would be flat at 50%. With them, it rises well above 50% everywhere, close to the total volatility √(σ² + λ(m² + δ²)) I'd expect from adding the jump variance, and it bends. When jumps are equally likely up or down, it bends into a smile: extreme outcomes become more likely in both directions, so options that only pay off in extremes are worth more than Black-Scholes allows. When the jumps are mostly crashes, it becomes a downward skew, because low-strike options act as crash insurance. That is the pattern stock-index options have shown since 1987. The jump parameters here are illustrative rather than fitted to data; comparing these shapes with real Bitcoin option prices is the natural next step.
 ## Running it
 
 ```bash
@@ -72,7 +79,9 @@ clang++ -std=c++17 -O2 -Wall src/mc_payoffs.cpp -o build/mc_payoffs && ./build/m
 clang++ -std=c++17 -O2 -Wall src/mc_variance.cpp -o build/mc_variance && ./build/mc_variance
 clang++ -std=c++17 -O2 -Wall src/mc_convergence.cpp -o build/mc_convergence && ./build/mc_convergence
 python src/plot_samples.py
+clang++ -std=c++17 -O2 -Wall src/mc_jumps.cpp -o build/mc_jumps && ./build/mc_jumps
 python src/plot_convergence.py
+python src/plot_smile.py
 ```
 
 The headers in `src/` hold the shared pieces: `normals.h` (Box-Muller), `black_scholes.h` (exact prices), `payoffs.h` (option classes) and `estimators.h` (the three Monte Carlo estimators). Random seeds are fixed, so the numbers above are reproducible.
