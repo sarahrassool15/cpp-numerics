@@ -1,4 +1,4 @@
-# Numerical methods in C++
+  # C++ and Navigating Different Numerical Methods 
 
 My C++ work for computational finance, built from the bottom up: first the random numbers every simulation depends on, then a Monte Carlo option pricer that uses them.
 
