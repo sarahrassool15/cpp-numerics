@@ -21,3 +21,10 @@ inline double bs_call(double S0, double K, double r, double sigma, double T) {
 inline double bs_put(double S0, double K, double r, double sigma, double T) {
     return bs_call(S0, K, r, sigma, T) - S0 + K * std::exp(-r * T);
 }
+
+// digital (cash-or-nothing) call: pays 1 if S_T > K, else 0
+// price = e^{-rT} Phi(d2)
+inline double bs_digital(double S0, double K, double r, double sigma, double T) {
+    double d2 = (std::log(S0 / K) + (r - 0.5 * sigma * sigma) * T) / (sigma * std::sqrt(T));
+    return std::exp(-r * T) * norm_cdf(d2);
+}
