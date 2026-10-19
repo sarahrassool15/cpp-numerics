@@ -25,3 +25,5 @@ axes[1].set_title("QQ plot against N(0, 1)")
 
 fig.tight_layout()
 fig.savefig("figures/box_muller.png", dpi=150)
+
+
