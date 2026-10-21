@@ -1,5 +1,5 @@
 // normals.h
-// My Box-Muller generator from S6, moved into a header file so other programs can use it.
+// My Box-Muller generator from my last project, moved into a header file so other programs can use it.
 // Any .cpp file that writes  #include "normals.h"  gets this function.
 
 #pragma once            // NOTE: stops this file being included twice by accident

@@ -41,3 +41,6 @@ public:
 private:
     double K;
 };
+
+
+

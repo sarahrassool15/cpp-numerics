@@ -14,14 +14,14 @@
 #include <random>
 #include <vector>
 #include <algorithm>          // std::max
-#include "normals.h"          // my Box-Muller from last S6 which generates standard normals 
+#include "normals.h"          // my Box Muller from last S6 which generates standard normals 
 #include "black_scholes.h"    // the exact answer, to check against
 
 int main() {
     // a standard textbook example: at-the-money call, one year
     double S0 = 100.0;     // price today
     double K = 100.0;      // strike
-    double r = 0.05;       // risk-free rate
+    double r = 0.05;       // risk free rate
     double sigma = 0.20;   // volatility
     double T = 1.0;        // one year to expiry
 
